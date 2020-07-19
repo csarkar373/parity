@@ -6,10 +6,9 @@ const ROBOTPICS = [RobotBack, RobotFront];
 class Robot extends Component {
   constructor(props) {
     super(props);
-    const { orientation, row, col } = this.props;
     //console.log("orientation row col ", orientation, row, col);
-    this.row = row;
-    this.col = col;
+    this.row = this.props.row;
+    this.col = this.props.col;
   }
   flip = () => {
     this.props.onClick(this.row, this.col);
@@ -18,7 +17,7 @@ class Robot extends Component {
     //console.log("rendering robot image");
     return (
       <button className={"robot"} onClick={this.flip}>
-        <img src={ROBOTPICS[this.props.orientation]} />
+        <img src={ROBOTPICS[this.props.orientation]} alt={"img not found"} />
       </button>
     );
   }

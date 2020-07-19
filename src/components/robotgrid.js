@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "../css/robotgrid.css";
 import * as AppConstants from "../util/appconstants";
 import Robot from "./robot";
-import App from "../App";
 class RobotGrid extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +45,6 @@ class RobotGrid extends Component {
     const robotStates = [];
     for (let r = 0; r < AppConstants.GRIDSIZE; ++r) {
       const nextRow = [];
-      let rowParity = 0;
       for (let c = 0; c < AppConstants.GRIDSIZE; ++c) {
         const orientation = Math.random() > 0.5 ? 0 : 1;
         nextRow.push(orientation);
@@ -75,7 +73,7 @@ class RobotGrid extends Component {
       }
       let odd = this.state.oddParity ? 0 : 1;
       //console.log("parity calc row  parity", row, rowParity);
-      robotStates[row][lastCol] = rowParity % 2 == odd ? 1 : 0;
+      robotStates[row][lastCol] = rowParity % 2 === odd ? 1 : 0;
     }
   }
 
@@ -88,13 +86,12 @@ class RobotGrid extends Component {
         colParity += robotStates[row][col];
       }
       let odd = this.state.oddParity ? 0 : 1;
-      robotStates[lastRow][col] = colParity % 2 == odd ? 1 : 0;
+      robotStates[lastRow][col] = colParity % 2 === odd ? 1 : 0;
     }
   }
 
   render() {
     //console.log("robot grid render");
-    const orientation = Math.random() > 0.5 ? 0 : 1;
     return (
       <div>
         <div>

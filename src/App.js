@@ -1,12 +1,13 @@
 import React from "react";
 import "./css/App.css";
 import RobotGrid from "./components/robotgrid";
+import * as AppConstants from "./util/appconstants";
 
 function App() {
   return (
     <div className="App">
       <div>
-        <header className="App-header">Parity Magic</header>
+        <header className="App-header">{AppConstants.TITLE}</header>
         <p>
           <b>Directions:</b> Start by pressing the shuffle button. After the
           grid of andriod robots is displayed, turn your back and ask a

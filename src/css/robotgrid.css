@@ -1,0 +1,6 @@
+.robotgrid {
+  display: inline-block;
+  border: solid 2px;
+  margin: 10px;
+  padding: 5px;
+}

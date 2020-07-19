@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./css/App.css";
+import RobotGrid from "./components/robotgrid";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <div>
+        <header className="App-header">Parity Magic</header>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          <b>Directions:</b> Start by pressing the shuffle button. After the
+          grid of andriod robots is displayed, turn your back and ask a
+          classmate to click on one robot and then move the mouse away from the
+          page. Turn around and try to figure out which robot was pressed.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h3>Click to flip one robot</h3>
+      </div>
+      <RobotGrid />
     </div>
   );
 }

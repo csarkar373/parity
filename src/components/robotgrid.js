@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import "../css/robotgrid.css";
 import * as AppConstants from "../util/appconstants";
 import Robot from "./robot";
+
 class RobotGrid extends Component {
   constructor(props) {
     super(props);
     const robotStates = [];
-    this.state = { robotStates, oddParity: true };
+    this.state = { robotStates };
   }
 
   componentWillMount() {
@@ -21,6 +22,7 @@ class RobotGrid extends Component {
   };
 
   makeRobots = () => {
+    //console.log("make robots");
     const grid = [];
     for (let row = 0; row < AppConstants.GRIDSIZE; ++row) {
       const nextRow = [];
@@ -52,18 +54,18 @@ class RobotGrid extends Component {
       robotStates.push(nextRow);
     }
     //console.log("before shuffle ", robotStates);
-    this.adjustParity(robotStates);
+    this.adjustParity(robotStates, this.props.oddParity);
     this.setState({ robotStates: robotStates });
     //console.log("after shuffle ", robotStates);
   };
 
-  adjustParity(robotStates) {
-    this.adjustRowParity(robotStates);
-    this.adjustColParity(robotStates);
+  adjustParity(robotStates, oddParity) {
+    this.adjustRowParity(robotStates, oddParity);
+    this.adjustColParity(robotStates, oddParity);
     //console.log("adjust parity oddparity", robotStates, this.state.oddParity);
   }
 
-  adjustRowParity(robotStates) {
+  adjustRowParity(robotStates, oddParity) {
     // adjust row parity
     const lastCol = robotStates[0].length - 1;
     for (let row = 0; row < robotStates.length; ++row) {
@@ -71,13 +73,13 @@ class RobotGrid extends Component {
       for (let col = 0; col < lastCol; ++col) {
         rowParity += robotStates[row][col];
       }
-      let odd = this.state.oddParity ? 0 : 1;
+      let odd = oddParity ? 0 : 1;
       //console.log("parity calc row  parity", row, rowParity);
       robotStates[row][lastCol] = rowParity % 2 === odd ? 1 : 0;
     }
   }
 
-  adjustColParity(robotStates) {
+  adjustColParity(robotStates, oddParity) {
     // adjust col parity
     const lastRow = robotStates.length - 1;
     for (let col = 0; col < robotStates[0].length; ++col) {
@@ -85,13 +87,21 @@ class RobotGrid extends Component {
       for (let row = 0; row < lastRow; ++row) {
         colParity += robotStates[row][col];
       }
-      let odd = this.state.oddParity ? 0 : 1;
+      let odd = oddParity ? 0 : 1;
       robotStates[lastRow][col] = colParity % 2 === odd ? 1 : 0;
     }
   }
 
+  // called when user toggles parity switch
+  changeParity(oddParity) {
+    //console.log("user requested parity change oddParity = ", oddParity);
+    const robotStates = [...this.state.robotStates];
+    this.adjustParity(robotStates, oddParity);
+    this.setState(robotStates);
+  }
+
   render() {
-    //console.log("robot grid render");
+    // console.log("robot grid render");
     return (
       <div>
         <div>

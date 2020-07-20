@@ -10,10 +10,13 @@ class Robot extends Component {
     this.row = this.props.row;
     this.col = this.props.col;
   }
-  flip = () => {
+  flip = (e) => {
+    console.log("flip e=", e);
+    e.preventDefault(); // leave no focus
     this.props.onClick(this.row, this.col);
   };
   render() {
+    // refresh row and col properties in case user has changed grid size
     this.row = this.props.row;
     this.col = this.props.col;
     //console.log("rendering robot image");

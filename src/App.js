@@ -20,7 +20,7 @@ class App extends Component {
     this.myRobotGrid.current.changeParity(oddParity);
   }
 
-  handleSize(large) {
+  handleSize(large = true) {
     //console.log("size change to large = ", large);
     this.setState({ large });
     this.myRobotGrid.current.changeSize(large);

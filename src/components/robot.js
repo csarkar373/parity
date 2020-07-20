@@ -10,9 +10,7 @@ class Robot extends Component {
     this.row = this.props.row;
     this.col = this.props.col;
   }
-  flip = (e) => {
-    console.log("flip e=", e);
-    e.preventDefault(); // leave no focus
+  flip = () => {
     this.props.onClick(this.row, this.col);
   };
   render() {

@@ -14,10 +14,19 @@ class Robot extends Component {
     this.props.onClick(this.row, this.col);
   };
   render() {
+    this.row = this.props.row;
+    this.col = this.props.col;
     //console.log("rendering robot image");
+    let size = this.props.large ? 75 : 50;
+
     return (
       <button className={"robot"} onClick={this.flip}>
-        <img src={ROBOTPICS[this.props.orientation]} alt={"img not found"} />
+        <img
+          src={ROBOTPICS[this.props.orientation]}
+          alt={"img not found"}
+          height={size}
+          width={size}
+        />
       </button>
     );
   }

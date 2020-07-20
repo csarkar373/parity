@@ -7,33 +7,36 @@ class RobotGrid extends Component {
   constructor(props) {
     super(props);
     const robotStates = [];
-    this.state = { robotStates };
+    this.state = { robotStates, size: AppConstants.GRIDSIZE };
+    this.shuffle = this.shuffle.bind(this);
   }
 
   componentWillMount() {
-    this.shuffle();
+    this.shuffle(AppConstants.GRIDSIZE);
   }
 
   onClick = (row, col) => {
     const robotStates = [...this.state.robotStates];
     robotStates[row][col] = robotStates[row][col] === 0 ? 1 : 0;
-    console.log("robotgrid onclick row col", row, col, robotStates);
+    //console.log("robotgrid onclick row col", row, col, robotStates);
     this.setState({ robotStates: robotStates });
   };
 
   makeRobots = () => {
-    //console.log("make robots");
+    //console.log("make robots large = ", this.props.large);
+    const size = this.state.size;
     const grid = [];
-    for (let row = 0; row < AppConstants.GRIDSIZE; ++row) {
+    for (let row = 0; row < size; ++row) {
       const nextRow = [];
-      for (let col = 0; col < AppConstants.GRIDSIZE; ++col) {
+      for (let col = 0; col < size; ++col) {
         const orientation = this.state.robotStates[row][col];
         nextRow.push(
           <Robot
-            key={row * AppConstants.GRIDSIZE + col}
+            key={row * size + col}
             orientation={orientation}
             row={row}
             col={col}
+            large={this.props.large}
             onClick={this.onClick}
           />
         );
@@ -43,21 +46,22 @@ class RobotGrid extends Component {
     return grid;
   };
 
-  shuffle = () => {
+  shuffle(size) {
+    //console.log("before shuffle size =", size);
     const robotStates = [];
-    for (let r = 0; r < AppConstants.GRIDSIZE; ++r) {
+    for (let r = 0; r < size; ++r) {
       const nextRow = [];
-      for (let c = 0; c < AppConstants.GRIDSIZE; ++c) {
+      for (let c = 0; c < size; ++c) {
         const orientation = Math.random() > 0.5 ? 0 : 1;
         nextRow.push(orientation);
       }
       robotStates.push(nextRow);
     }
-    //console.log("before shuffle ", robotStates);
+
     this.adjustParity(robotStates, this.props.oddParity);
     this.setState({ robotStates: robotStates });
     //console.log("after shuffle ", robotStates);
-  };
+  }
 
   adjustParity(robotStates, oddParity) {
     this.adjustRowParity(robotStates, oddParity);
@@ -67,6 +71,7 @@ class RobotGrid extends Component {
 
   adjustRowParity(robotStates, oddParity) {
     // adjust row parity
+    //console.log("robotstates =", robotStates);
     const lastCol = robotStates[0].length - 1;
     for (let row = 0; row < robotStates.length; ++row) {
       let rowParity = 0;
@@ -100,12 +105,24 @@ class RobotGrid extends Component {
     this.setState(robotStates);
   }
 
+  changeSize(large) {
+    const size = large ? AppConstants.GRIDSIZE : AppConstants.GRIDSIZE - 2;
+    this.shuffle(size);
+    this.setState({ size });
+  }
+
   render() {
     // console.log("robot grid render");
     return (
       <div>
         <div>
-          <button onClick={this.shuffle}>Shuffle</button>
+          <button
+            onClick={() => {
+              this.shuffle(this.state.size);
+            }}
+          >
+            Shuffle
+          </button>
         </div>
         <div className={"robotgrid"}>{this.makeRobots()}</div>
       </div>
